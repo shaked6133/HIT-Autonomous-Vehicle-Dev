@@ -97,13 +97,13 @@ cd HIT-Autonomous-Vehicle-Dev
 
 ## 2.  Create a virtual environment
 ```
-python3 -m venv venv
-source venv/bin/activate
+python -m venv .venv 
+.venv\Scripts\Activate.ps1
 ```
 
 ## 3.  Install dependencies
 ```
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
 ### 🚀 Launch Application
