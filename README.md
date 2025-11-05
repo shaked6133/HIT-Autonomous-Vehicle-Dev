@@ -35,6 +35,7 @@ By the end of this course, you will be able to:
 
 ## 🧩 Repository Structure
 
+```
 HIT-Autonomous-Vehicle-Dev/
 ├── backend/
 │   ├── app/
@@ -73,7 +74,7 @@ HIT-Autonomous-Vehicle-Dev/
 ├── .dockerignore
 ├── docker-compose.yml
 └── README.md
-
+```
 
 ⚙️ Setup Instructions
 1. Clone the repository
