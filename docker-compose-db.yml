@@ -1,13 +1,38 @@
-version: "3.9"
+version: "3.8"
 
 services:
-  backend:
-    build: ./backend
-    container_name: autonomous_vehicle_backend
+  api:
+    build: .
+    container_name: fastapi
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/app_db
+      - PYTHONUNBUFFERED=1
+      - WATCHFILES_FORCE_POLLING=true
     volumes:
-      - ./backend/app:/app/app
-    env_file:
-      - .env
+      - ./app:/app
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  db_data:
