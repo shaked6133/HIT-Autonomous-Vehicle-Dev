@@ -78,16 +78,21 @@ HIT-Autonomous-Vehicle-Dev/
 
 ⚙️ Setup Instructions
 1. Clone the repository
+```
 git clone https://github.com/<your-username>/HIT-Autonomous-Vehicle-Dev.git
 cd HIT-Autonomous-Vehicle-Dev
+```
 
 2. Create a virtual environment
+```
 python3 -m venv venv
 source venv/bin/activate
+```
 
 3. Install dependencies
+```
 pip install -r requirements.txt
-
+```
 
 🧪 Tools & Technologies
 
