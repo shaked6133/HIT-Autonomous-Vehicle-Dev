@@ -96,22 +96,22 @@ pip install -r requirements.txt
 
 🧪 Tools & Technologies
 
-Languages: Python, C++, MATLAB
-Frameworks: ROS2, OpenCV, TensorFlow/PyTorch
-Simulators: CARLA, Gazebo
-Version Control: Git + GitHub
-Other Tools: NumPy, Pandas, Matplotlib
+- Languages: Python, C++, MATLAB
+- Frameworks: ROS2, OpenCV, TensorFlow/PyTorch
+- Simulators: CARLA, Gazebo
+- Version Control: Git + GitHub
+- Other Tools: NumPy, Pandas, Matplotlib
 
 
 📚 References
 
-CARLA Simulator
-ROS Documentation
-OpenCV
-Udacity: Self-Driving Car Engineer Nanodegree
+- CARLA Simulator
+- ROS Documentation
+- OpenCV
+- Udacity: Self-Driving Car Engineer Nanodegree
 
 🧑‍💻 Author
 
-Shaked Sabag
-Networking & Cybersecurity Engineer | Cloud & Software Developer
-📧 Contact: sabag975@gmail.com
+- Shaked Sabag
+- Networking & Cybersecurity Engineer | Cloud & Software Developer
+- 📧 Contact: sabag975@gmail.com
