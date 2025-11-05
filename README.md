@@ -35,13 +35,45 @@ By the end of this course, you will be able to:
 
 ## 🧩 Repository Structure
 
-```bash
-├── docs/                # Documentation and lecture notes
-├── assignments/         # Weekly assignments and solutions
-├── projects/            # Major course projects
-├── src/                 # Source code for examples and demos
-├── simulations/         # Simulation environments and configurations
-└── README.md            # This file
+HIT-Autonomous-Vehicle-Dev/
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py                 # FastAPI entry point
+│   │   ├── routers/                # API endpoints (e.g., perception, control)
+│   │   ├── core/                   # Config, logging, and utilities
+│   │   └── models/                 # Data models or database schemas (if used)
+│   │
+│   ├── tests/
+│   │   └── test_main.py
+│   │
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   └── README.md
+│
+├── assignments/                    # Weekly coding exercises
+│   └── ...
+│
+├── projects/                       # Final and midterm projects
+│   └── autonomous_car/
+│       ├── src/
+│       ├── config/
+│       └── launch/
+│
+├── simulations/                    # For ROS2 / CARLA / Gazebo simulations
+│   ├── rviz/
+│   ├── carla/
+│   └── gazebo/
+│
+├── docs/                           # Documentation and course notes
+│   └── syllabus.pdf
+│
+├── .env
+├── .gitignore
+├── .dockerignore
+├── docker-compose.yml
+└── README.md
+
 
 ⚙️ Setup Instructions
 1. Clone the repository
