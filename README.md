@@ -76,6 +76,18 @@ HIT-Autonomous-Vehicle-Dev/
 └── README.md
 ```
 
+### Prerequisites
+
+```bash
+# Required software
+- Docker & Docker Compose
+- Git
+
+# Optional for local development
+- Python 3.13+ (backend development)
+```
+
+
 ## ⚙️ Setup Instructions
 1. Clone the repository
 ```
@@ -93,6 +105,27 @@ source venv/bin/activate
 ```
 pip install -r requirements.txt
 ```
+
+### 🚀 Launch Application
+```bash
+# Clone the repository
+git clone https://github.com/your-username/HIT-Autonomous-Vehicle-Dev.git
+cd HIT-Autonomous-Vehicle-Dev
+
+
+# Build and start all services
+docker-compose up --build
+
+# Or run in detached mode
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+```
+
 
 ## 🧪 Tools & Technologies
 
