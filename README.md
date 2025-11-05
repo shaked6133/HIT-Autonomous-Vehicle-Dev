@@ -108,10 +108,6 @@ pip install -r backend/requirements.txt
 
 ### 🚀 Launch Application
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/HIT-Autonomous-Vehicle-Dev.git
-cd HIT-Autonomous-Vehicle-Dev
-
 
 # Build and start all services
 docker-compose up --build
