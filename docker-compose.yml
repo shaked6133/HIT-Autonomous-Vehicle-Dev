@@ -11,3 +11,14 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+
+  rosbridge:
+    build: ./rosbridge
+    ports:
+      - "9090:9090"
+    volumes:
+      # Mount your ROS 2 project (optional unless you need files in-container)
+      - ./projects/autonomous_car:/ros2_ws/src/autonomous_car:ro
+      # Mount the built workspace install to expose custom msg/srv types
+      - ./projects/autonomous_car/install:/ros2_ws/install:ro
+    restart: unless-stopped
