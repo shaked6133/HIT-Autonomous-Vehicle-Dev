@@ -76,7 +76,7 @@ HIT-Autonomous-Vehicle-Dev/
 └── README.md
 ```
 
-⚙️ Setup Instructions
+## ⚙️ Setup Instructions
 1. Clone the repository
 ```
 git clone https://github.com/<your-username>/HIT-Autonomous-Vehicle-Dev.git
@@ -94,7 +94,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-🧪 Tools & Technologies
+## 🧪 Tools & Technologies
 
 - Languages: Python, C++, MATLAB
 - Frameworks: ROS2, OpenCV, TensorFlow/PyTorch
@@ -103,14 +103,14 @@ pip install -r requirements.txt
 - Other Tools: NumPy, Pandas, Matplotlib
 
 
-📚 References
+## 📚 References
 
 - CARLA Simulator
 - ROS Documentation
 - OpenCV
 - Udacity: Self-Driving Car Engineer Nanodegree
 
-🧑‍💻 Author
+## 🧑‍💻 Author
 
 - Shaked Sabag
 - Networking & Cybersecurity Engineer | Cloud & Software Developer
