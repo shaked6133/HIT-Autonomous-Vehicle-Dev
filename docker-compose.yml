@@ -1,24 +1,23 @@
 version: "3.9"
 
 services:
-  backend:
-    build: ./backend
-    container_name: autonomous_vehicle_backend
-    ports:
-      - "8000:8000"
+  ros2-core:
+    build: ./docker/ros2-core
+    container_name: ros2-core
     volumes:
-      - ./backend/app:/app/app
-    env_file:
-      - .env
-    restart: unless-stopped
+      - ./src:/ros2_ws/src
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_DOMAIN_ID=10
+    network_mode: host
+    stdin_open: true
+    tty: true
 
   rosbridge:
-    build: ./rosbridge
-    ports:
-      - "9090:9090"
-    volumes:
-      # Mount your ROS 2 project (optional unless you need files in-container)
-      - ./projects/autonomous_car:/ros2_ws/src/autonomous_car:ro
-      # Mount the built workspace install to expose custom msg/srv types
-      - ./projects/autonomous_car/install:/ros2_ws/install:ro
-    restart: unless-stopped
+    build: ./docker/rosbridge
+    container_name: rosbridge
+    environment:
+      - ROS_DOMAIN_ID=10
+    network_mode: host
+    depends_on:
+      - ros2-core
