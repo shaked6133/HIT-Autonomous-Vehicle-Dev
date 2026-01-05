@@ -10,7 +10,7 @@ This repository contains a containerized ROS 2 software stack developed for the 
 
 </div>
 ## 🏗 Full System Architecture
-```
+
 
 The following graph illustrates the data flow from the user's browser, through the WebSocket bridge, into the internal ROS 2 DDS network.
 
@@ -87,18 +87,17 @@ This command builds the custom nodes, handles environment sourcing, and initiali
 
 ## 🎮 Operational Control
 Teleoperation
-```
 Keyboard: Use the Arrow Keys (Up, Down, Left, Right) to drive the turtle on the canvas.
 
 On-Screen Buttons: Use the dedicated UI buttons for manual control.
-```
+
 Services:
-```
-Teleport: Use the "Teleport" buttons (TL, TR, BL, BR) to instantly move the turtle to the corners via the /teleport_turtle service.
-```
+Teleport: Use the "Teleport" buttons (TL, TR, BL, BR) 
+to instantly move the turtle to the corners via the /teleport_turtle service.
+
 
 ## 🛠 Technical Implementation Details
-```
+
 Windows-Docker Compatibility Fix
 
 To bypass common volume-syncing delays on Windows, the docker-compose.yml utilizes a specialized bootstrap sequence:
@@ -108,7 +107,7 @@ To bypass common volume-syncing delays on Windows, the docker-compose.yml utiliz
     Manual Path Injection: Explicitly exports the AMENT_PREFIX_PATH to ensure the package is discoverable immediately.
 
     Subshell Execution: Launches the ROS node in the background using (ros2 run ... &) and maintains the container lifecycle with tail -f /dev/null.
-```
+
 
 ## ROS 2 Interface Specifications
 ```
@@ -120,7 +119,6 @@ Client/Server	Service	/teleport_turtle	std_srvs/srv/SetBool
 
 
 ## 🛠 Technologies
-```
     Middleware: ROS 2 Jazzy Jalisco
 
     Communication: WebSockets, DDS (Data Distribution Service)
@@ -130,5 +128,4 @@ Client/Server	Service	/teleport_turtle	std_srvs/srv/SetBool
     Infrastructure: Docker & Docker Compose
 
     Backend: Node.js
-```
 </div>
