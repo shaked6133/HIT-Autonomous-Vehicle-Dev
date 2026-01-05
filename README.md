@@ -117,7 +117,7 @@ To bypass common volume-syncing delays on Windows, the docker-compose.yml utiliz
 Component	    Type	      Name	              Message/Service Type
 Publisher	    Topic	    /turtle1/pose	        turtlesim/msg/Pose
 Subscriber      Topic	    /turtle1/cmd_vel	    geometry_msgs/msg/Twist
-Client/Server	Service	  /teleport_turtle	    std_srvs/srv/SetBool
+Client/Server	Service	   /teleport_turtle	      std_srvs/srv/SetBool
 ```
 
 
