@@ -10,15 +10,33 @@ services:
       - rosnet
     stdin_open: true
     tty: true
+    # The command below ensures the environment is set up and the node stays alive
     command: >
-          bash -c "
-            source /opt/ros/jazzy/setup.bash &&
-            cd /ros2_ws &&
-            colcon build --merge-install &&
-            export AMENT_PREFIX_PATH=\$AMENT_PREFIX_PATH:/ros2_ws/install &&
-            source install/setup.bash &&
-            ros2 run turtle_sim_web turtle_node
-          "
+      bash -c "
+        # 1. Load the core ROS 2 environment variables (standard setup)
+        source /opt/ros/jazzy/setup.bash &&
+        
+        # 2. Enter the workspace where our source code is mounted
+        cd /ros2_ws &&
+        
+        # 3. Build the package. --merge-install simplifies the folder structure for Windows
+        colcon build --merge-install &&
+        
+        # 4. Force ROS to look in the internal install folder (fixes 'Package not found' on Windows)
+        export AMENT_PREFIX_PATH=\$AMENT_PREFIX_PATH:/ros2_ws/install &&
+        
+        # 5. Source the workspace-specific setup file to register our custom node
+        source /ros2_ws/install/setup.bash &&
+        
+        # 6. Run the turtle node in the background (&) so the script can continue
+        (ros2 run turtle_sim_web turtle_node &) &&
+        
+        # 7. Print a confirmation message to the container logs
+        echo 'ROS 2 Turtle Node is running in the background...' &&
+        
+        # 8. Keep the container alive forever (prevents crash/exit)
+        tail -f /dev/null
+      "
 
   rosbridge:
     build: ./docker/rosbridge
@@ -27,11 +45,14 @@ services:
       - ROS_DOMAIN_ID=10
     networks:
       - rosnet
+    # Ensures ros2-core starts first, though ROS 2 nodes discover each other automatically
     depends_on:
       - ros2-core
     ports:
+      # Exposes the WebSocket port so your Windows web browser can connect
       - "9090:9090"
 
 networks:
+  # Internal network to allow the core node and bridge to communicate
   rosnet:
     driver: bridge

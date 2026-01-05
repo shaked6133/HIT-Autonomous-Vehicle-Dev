@@ -38,13 +38,6 @@ const teleportClient = new ROSLIB.Service({
     serviceType: 'std_srvs/srv/SetBool'
 });
 
-// Docking service
-const dockingClient = new ROSLIB.Service({
-    ros: ros,
-    name: '/start_docking',
-    serviceType: 'std_srvs/srv/Trigger'
-});
-
 
 // Canvas
 const canvas = document.getElementById('canvas');
@@ -81,14 +74,6 @@ function teleportCorner(cornerId) {
     });
 }
 
-// Docking placeholder
-function startDocking() {
-    console.log('Starting docking');
-    const request = new ROSLIB.ServiceRequest({});
-    dockingClient.callService(request, (result) => {
-        console.log('Docking result:', result);
-    });
-}
 
 // Draw
 function draw() {
