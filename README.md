@@ -1,146 +1,181 @@
-# Intelligent Autonomous Vehicle Software Development 🚗🤖
+# HIT – Intelligent Autonomous Vehicle Software Development
 
-Welcome to the **Intelligent Autonomous Vehicle Software Development** course repository.  
-This repository contains all course materials, code examples, assignments, and projects related to the design, development, and testing of intelligent systems for autonomous vehicles.
+This repository contains the infrastructure and ROS 2 software stack developed as part of the **Intelligent Autonomous Vehicle Software Development** course at HIT.
 
----
-
-## 📘 Course Overview
-
-This course focuses on the **software architecture, algorithms, and technologies** behind modern autonomous vehicles.  
-Students will gain practical experience in perception, planning, control, and decision-making systems through real-world simulations and projects.
-
-### Key Topics
-- Fundamentals of Autonomous Systems
-- Sensor Fusion (LiDAR, Radar, Cameras)
-- Computer Vision and Object Detection
-- Localization and Mapping (SLAM)
-- Path Planning and Motion Control
-- AI and Machine Learning for Perception and Decision-Making
-- ROS (Robot Operating System)
-- Simulation Environments (CARLA, Gazebo, etc.)
+The project demonstrates a **containerized ROS 2 system** integrated with a **web-based control and visualization interface**, following clean architectural separation and ROS 2 best practices.
 
 ---
 
-## 🧠 Learning Objectives
+# Project Overview
 
-By the end of this course, you will be able to:
-1. Understand the core components of an autonomous vehicle software stack.
-2. Design and implement intelligent driving modules.
-3. Integrate perception, planning, and control algorithms.
-4. Use modern tools and frameworks for simulation and testing.
-5. Apply AI and ML techniques to improve vehicle intelligence.
+The system implements a modular ROS 2 environment designed to support:
+- Autonomous vehicle logic
+- Simulation components
+- Web-based control and visualization via ROS 2 bridging
+
+The focus is on **system architecture, ROS graph design, and interoperability**, rather than monolithic or GUI-bound execution.
 
 ---
 
-## 🧩 Repository Structure
+#  System Architecture
 
-```
+The system is composed of two main runtime services and one external client layer.
+
+---
+
+# High-Level Architecture Diagram
+
+```mermaid
+flowchart LR
+    Browser[Web Client<br/>Canvas / UI] -->|WebSocket (roslibjs)| Rosbridge
+    Rosbridge -->|DDS| RosCore
+    RosCore -->|DDS| Rosbridge
+    Rosbridge -->|WebSocket| Browser
+
+
+---
+
+# Components
+
+Web Client
+
+- Runs in a browser
+
+- Uses roslibjs
+
+- Publishes and subscribes to ROS 2 topics
+
+- Renders simulation state on a canvas-based UI
+
+rosbridge
+
+- ROS 2 WebSocket server
+
+- Translates WebSocket messages to DDS
+
+- Acts as a bridge between ROS 2 and non-ROS environments
+
+ros2-core
+
+- Main ROS 2 runtime
+
+- Hosts simulation, control, and logic nodes
+
+- Maintains the authoritative ROS graph
+
+---
+
+
+# ROS 2 Logical Graph
+
+flowchart TB
+    WebUI[Web UI<br/>roslibjs]
+    RosbridgeNode[/rosbridge_websocket/]
+
+    TalkerNode[/demo_nodes_cpp/talker/]
+    ListenerNode[/demo_nodes_cpp/listener/]
+
+    CmdVel[/cmd_vel topic/]
+    Chatter[/chatter topic/]
+
+    WebUI -->|publish| CmdVel
+    CmdVel --> RosbridgeNode
+    RosbridgeNode --> TalkerNode
+
+    TalkerNode -->|publish| Chatter
+    Chatter --> RosbridgeNode
+    RosbridgeNode --> WebUI
+    Chatter --> ListenerNode
+
+Explanation
+
+- Web client behaves as a logical ROS node
+- rosbridge_websocket exposes ROS topics over WebSocket
+- Core ROS nodes communicate exclusively via DDS
+- No ROS logic is duplicated in the browser
+
+
+---
+
+
+# Repository Structure
+
 HIT-Autonomous-Vehicle-Dev/
-├── backend/
-│   ├── app/
-│   │   ├── __init__.py
-│   │   ├── main.py                 # FastAPI entry point
-│   │   ├── routers/                # API endpoints (e.g., perception, control)
-│   │   ├── core/                   # Config, logging, and utilities
-│   │   └── models/                 # Data models or database schemas (if used)
+├── docker/
+│   ├── ros2-core/
+│   │   └── Dockerfile
 │   │
-│   ├── tests/
-│   │   └── test_main.py
-│   │
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── README.md
+│   └── rosbridge/
+│       └── Dockerfile
 │
-├── assignments/                    # Weekly coding exercises
-│   └── ...
+├── src/
+│   └── turtle_sim_web/
+│       ├── package.xml
+│       ├── CMakeLists.txt
+│       └── src/
 │
-├── projects/                       # Final and midterm projects
-│   └── autonomous_car/
-│       ├── src/
-│       ├── config/
-│       └── launch/
-│
-├── simulations/                    # For ROS2 / CARLA / Gazebo simulations
-│   ├── rviz/
-│   ├── carla/
-│   └── gazebo/
-│
-├── docs/                           # Documentation and course notes
-│   └── syllabus.pdf
-│
-├── .env
-├── .gitignore
-├── .dockerignore
 ├── docker-compose.yml
+├── .env
+├── .dockerignore
+├── .gitignore
 └── README.md
-```
 
-### Prerequisites
+---
 
-```bash
-# Required software
+# Structure Rationale
+
+- docker/ – Container definitions per responsibility
+- src/ – Custom ROS 2 packages mounted into ros2-core
+- docker-compose.yml – Single orchestration entry point
+- Clear separation between infrastructure and ROS logic
+
+---
+
+# Docker Services
+
+ros2-core
+- Base image: ros:jazzy-ros-base
+- Responsibilities:
+- ROS 2 nodes execution
+- Simulation
+- Control logic
+- Exposes DDS to internal Docker network
+
+rosbridge
+- Base image: ros:jazzy-ros-base
+- Installed package: rosbridge_server
+- Exposes:
+  -WebSocket on port 9090
+
+---
+
+# Build and Run
+
+Build and start the system
+- docker compose up --build
+
+Access rosbridge
+- ws://localhost:9090
+
+---
+
+# Verify ROS graph (inside ros2-core)
+docker exec -it ros2-core bash
+source /opt/ros/jazzy/setup.bash
+ros2 node list
+ros2 topic list
+
+---
+
+# Technologies Used
+
+- ROS 2 Jazzy
+- DDS
 - Docker & Docker Compose
-- Git
+- rosbridge
+- WebSocket
+- Python
+- C++
+- JavaScript (roslibjs)
 
-# Optional for local development
-- Python 3.13+ (backend development)
-```
-
-
-## ⚙️ Setup Instructions
-## 1.  Clone the repository
-```
-git clone https://github.com/<your-username>/HIT-Autonomous-Vehicle-Dev.git
-cd HIT-Autonomous-Vehicle-Dev
-```
-
-## 2.  Create a virtual environment
-```
-python -m venv .venv 
-.venv\Scripts\Activate.ps1
-```
-
-## 3.  Install dependencies
-```
-pip install -r backend/requirements.txt
-```
-
-### 🚀 Launch Application
-```bash
-
-# Build and start all services
-docker-compose up --build
-
-# Or run in detached mode
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop all services
-docker-compose down
-```
-
-
-## 🧪 Tools & Technologies
-
-- Languages: Python, C++, MATLAB
-- Frameworks: ROS2, OpenCV, TensorFlow/PyTorch
-- Simulators: CARLA, Gazebo
-- Version Control: Git + GitHub
-- Other Tools: NumPy, Pandas, Matplotlib
-
-
-## 📚 References
-
-- CARLA Simulator
-- ROS Documentation
-- OpenCV
-- Udacity: Self-Driving Car Engineer Nanodegree
-
-## 🧑‍💻 Author
-
-- Shaked Sabag
-- Networking & Cybersecurity Engineer | Cloud & Software Developer
-- 📧 Contact: sabag975@gmail.com
+---

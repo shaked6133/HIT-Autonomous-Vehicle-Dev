@@ -5,6 +5,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get install -y \
     ros-jazzy-turtlesim \
     ros-jazzy-teleop-twist-keyboard \
+    ros-jazzy-demo-nodes-cpp \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /ros2_ws
