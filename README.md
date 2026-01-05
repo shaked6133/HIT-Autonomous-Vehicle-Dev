@@ -15,16 +15,16 @@ The following graph illustrates the data flow from the user's browser, through t
 
 ```mermaid
 flowchart TB
-    subgraph "Host Machine (Windows/Linux/Mac)"
+    subgraph Host ["Host Machine (Windows/Linux/Mac)"]
         Browser[Web Browser Interface]
         WebServer[Node.js Static Server :8080]
     end
 
-    subgraph "Docker Container: rosbridge"
+    subgraph Bridge ["Docker Container: rosbridge"]
         RB[rosbridge_websocket :9090]
     end
 
-    subgraph "Docker Container: ros2-core"
+    subgraph Core ["Docker Container: ros2-core"]
         direction TB
         TurtleNode[/turtle_node/]
         SimLogic[Simulation Logic]
@@ -32,13 +32,13 @@ flowchart TB
     end
 
     %% Communication Flows
-    Browser <-->|HTTP/Static Files| WebServer
-    Browser <-->|WebSocket / JSON| RB
-    RB <-->|DDS / ROS Messages| TurtleNode
+    Browser <--> WebServer
+    Browser <--> RB
+    RB <--> TurtleNode
 
     %% Topic Details
-    TurtleNode -- "Publish: /turtle1/pose" --> RB
-    RB -- "Publish: /turtle1/cmd_vel" --> TurtleNode
+    TurtleNode -- "/turtle1/pose" --> RB
+    RB -- "/turtle1/cmd_vel" --> TurtleNode
 
 
 ---
