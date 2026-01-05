@@ -9,6 +9,7 @@
 This repository contains a containerized ROS 2 software stack developed for the **Intelligent Autonomous Vehicle Software Development** course at HIT. The project demonstrates a modern "Headless" simulation architecture where ROS 2 handles the physics and logic in a Docker environment, while a decoupled Web Client provides visualization and control.
 
 </div>
+
 ## 🏗 Full System Architecture
 
 
