@@ -123,12 +123,8 @@ Client/Server	Service	   /teleport_turtle	      std_srvs/srv/SetBool
 
 ## 🛠 Technologies
   Middleware: ROS 2 Jazzy Jalisco
-
   Communication: WebSockets, DDS (Data Distribution Service)
-
   Frontend: HTML5 Canvas, JavaScript, ROSLIBJS
-
   Infrastructure: Docker & Docker Compose
-
   Backend: Node.js
 </div>
