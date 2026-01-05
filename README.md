@@ -1,181 +1,133 @@
 # HIT – Intelligent Autonomous Vehicle Software Development
+### Headless ROS 2 Simulation & Web-Interface Integration
 
-This repository contains the infrastructure and ROS 2 software stack developed as part of the **Intelligent Autonomous Vehicle Software Development** course at HIT.
+[![ROS 2](https://img.shields.io/badge/ROS2-Jazzy-blue?logo=ros&logoColor=white)](https://docs.ros.org/en/jazzy/index.html)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-The project demonstrates a **containerized ROS 2 system** integrated with a **web-based control and visualization interface**, following clean architectural separation and ROS 2 best practices.
-
----
-
-# Project Overview
-
-The system implements a modular ROS 2 environment designed to support:
-- Autonomous vehicle logic
-- Simulation components
-- Web-based control and visualization via ROS 2 bridging
-
-The focus is on **system architecture, ROS graph design, and interoperability**, rather than monolithic or GUI-bound execution.
+This repository contains a containerized ROS 2 software stack developed for the **Intelligent Autonomous Vehicle Software Development** course at HIT. The project demonstrates a modern "Headless" simulation architecture where ROS 2 handles the physics and logic in a Docker environment, while a decoupled Web Client provides visualization and control.
 
 ---
 
-#  System Architecture
+## 🏗 Full System Architecture
 
-The system is composed of two main runtime services and one external client layer.
-
----
-
-# High-Level Architecture Diagram
+The following graph illustrates the data flow from the user's browser, through the WebSocket bridge, into the internal ROS 2 DDS network.
 
 ```mermaid
-flowchart LR
-    Browser[Web Client<br/>Canvas / UI] -->|WebSocket (roslibjs)| Rosbridge
-    Rosbridge -->|DDS| RosCore
-    RosCore -->|DDS| Rosbridge
-    Rosbridge -->|WebSocket| Browser
-
-
----
-
-# Components
-
-Web Client
-
-- Runs in a browser
-
-- Uses roslibjs
-
-- Publishes and subscribes to ROS 2 topics
-
-- Renders simulation state on a canvas-based UI
-
-rosbridge
-
-- ROS 2 WebSocket server
-
-- Translates WebSocket messages to DDS
-
-- Acts as a bridge between ROS 2 and non-ROS environments
-
-ros2-core
-
-- Main ROS 2 runtime
-
-- Hosts simulation, control, and logic nodes
-
-- Maintains the authoritative ROS graph
-
----
-
-
-# ROS 2 Logical Graph
-
 flowchart TB
-    WebUI[Web UI<br/>roslibjs]
-    RosbridgeNode[/rosbridge_websocket/]
+    subgraph "Host Machine (Windows/Linux/Mac)"
+        Browser[Web Browser Interface]
+        WebServer[Node.js Static Server :8080]
+    end
 
-    TalkerNode[/demo_nodes_cpp/talker/]
-    ListenerNode[/demo_nodes_cpp/listener/]
+    subgraph "Docker Container: rosbridge"
+        RB[rosbridge_websocket :9090]
+    end
 
-    CmdVel[/cmd_vel topic/]
-    Chatter[/chatter topic/]
+    subgraph "Docker Container: ros2-core"
+        direction TB
+        TurtleNode[/turtle_node/]
+        SimLogic[Simulation Logic]
+        TurtleNode --- SimLogic
+    end
 
-    WebUI -->|publish| CmdVel
-    CmdVel --> RosbridgeNode
-    RosbridgeNode --> TalkerNode
+    %% Communication Flows
+    Browser <-->|HTTP/Static Files| WebServer
+    Browser <-->|WebSocket / JSON| RB
+    RB <-->|DDS / ROS Messages| TurtleNode
 
-    TalkerNode -->|publish| Chatter
-    Chatter --> RosbridgeNode
-    RosbridgeNode --> WebUI
-    Chatter --> ListenerNode
-
-Explanation
-
-- Web client behaves as a logical ROS node
-- rosbridge_websocket exposes ROS topics over WebSocket
-- Core ROS nodes communicate exclusively via DDS
-- No ROS logic is duplicated in the browser
+    %% Topic Details
+    TurtleNode -- "Publish: /turtle1/pose" --> RB
+    RB -- "Publish: /turtle1/cmd_vel" --> TurtleNode
 
 
 ---
 
 
-# Repository Structure
+📂 Repository Structure
 
 HIT-Autonomous-Vehicle-Dev/
 ├── docker/
-│   ├── ros2-core/
-│   │   └── Dockerfile
-│   │
-│   └── rosbridge/
-│       └── Dockerfile
-│
+│   ├── ros2-core/          # ROS 2 Jazzy environment & Turtlesim setup
+│   └── rosbridge/          # WebSocket bridge server configuration
 ├── src/
-│   └── turtle_sim_web/
-│       ├── package.xml
-│       ├── CMakeLists.txt
-│       └── src/
-│
-├── docker-compose.yml
-├── .env
-├── .dockerignore
-├── .gitignore
+│   └── turtle_sim_web/     # Custom ROS 2 Python package
+│       ├── turtle_sim_web/ # Node implementation (turtle_node.py)
+│       ├── package.xml     # Package dependencies
+│       └── setup.py        # Build entry points for ROS 2
+├── web/
+│   ├── index.html          # UI with HTML5 Canvas & ROSLibJS
+│   ├── app.js              # ROSLibJS Publisher/Subscriber logic
+│   └── server.js           # Node.js server for static assets
+├── docker-compose.yml      # Orchestration & Volume mounting
 └── README.md
 
 ---
 
-# Structure Rationale
+🚀 Getting Started
 
-- docker/ – Container definitions per responsibility
-- src/ – Custom ROS 2 packages mounted into ros2-core
-- docker-compose.yml – Single orchestration entry point
-- Clear separation between infrastructure and ROS logic
+1. Prerequisites
 
----
+    Docker Desktop: Ensure WSL2 backend is enabled (for Windows users).
 
-# Docker Services
+    Git: To clone and manage the repository.
 
-ros2-core
-- Base image: ros:jazzy-ros-base
-- Responsibilities:
-- ROS 2 nodes execution
-- Simulation
-- Control logic
-- Exposes DDS to internal Docker network
+2. Launching the System
 
-rosbridge
-- Base image: ros:jazzy-ros-base
-- Installed package: rosbridge_server
-- Exposes:
-  -WebSocket on port 9090
+From the root directory, execute the following command:
+docker compose up --build
+
+This command builds the custom nodes, handles environment sourcing, and initializes the internal ROS graph.
 
 ---
 
-# Build and Run
 
-Build and start the system
-- docker compose up --build
+🎮 Operational Control
 
-Access rosbridge
-- ws://localhost:9090
+Teleoperation
 
----
+    Keyboard: Use the Arrow Keys (Up, Down, Left, Right) to drive the turtle on the canvas.
 
-# Verify ROS graph (inside ros2-core)
-docker exec -it ros2-core bash
-source /opt/ros/jazzy/setup.bash
-ros2 node list
-ros2 topic list
+    On-Screen Buttons: Use the dedicated UI buttons for manual control.
+
+Services
+
+    Teleport: Use the "Teleport" buttons (TL, TR, BL, BR) to instantly move the turtle to the corners via the /teleport_turtle service.
+
 
 ---
 
-# Technologies Used
+🛠 Technical Implementation Details
+Windows-Docker Compatibility Fix
 
-- ROS 2 Jazzy
-- DDS
-- Docker & Docker Compose
-- rosbridge
-- WebSocket
-- Python
-- C++
-- JavaScript (roslibjs)
+To bypass common volume-syncing delays on Windows, the docker-compose.yml utilizes a specialized bootstrap sequence:
+
+    Internal Build: Runs colcon build --merge-install inside the container.
+
+    Manual Path Injection: Explicitly exports the AMENT_PREFIX_PATH to ensure the package is discoverable immediately.
+
+    Subshell Execution: Launches the ROS node in the background using (ros2 run ... &) and maintains the container lifecycle with tail -f /dev/null.
 
 ---
+
+ROS 2 Interface Specifications
+
+Component	Type	Name	Message/Service Type
+Publisher	Topic	/turtle1/pose	turtlesim/msg/Pose
+Subscriber	Topic	/turtle1/cmd_vel	geometry_msgs/msg/Twist
+Client/Server	Service	/teleport_turtle	std_srvs/srv/SetBool
+
+
+---
+
+🛠 Technologies
+
+    Middleware: ROS 2 Jazzy Jalisco
+
+    Communication: WebSockets, DDS (Data Distribution Service)
+
+    Frontend: HTML5 Canvas, JavaScript, ROSLIBJS
+
+    Infrastructure: Docker & Docker Compose
+
+    Backend: Node.js
