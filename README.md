@@ -114,10 +114,10 @@ To bypass common volume-syncing delays on Windows, the docker-compose.yml utiliz
 
 ## ROS 2 Interface Specifications
 ```
-Component	    Type	    Name	          Message/Service Type
-Publisher	    Topic	  /turtle1/pose	    turtlesim/msg/Pose
-Subscriber    Topic	  /turtle1/cmd_vel	geometry_msgs/msg/Twist
-Client/Server	Service	/teleport_turtle	std_srvs/srv/SetBool
+Component	    Type	      Name	              Message/Service Type
+Publisher	    Topic	    /turtle1/pose	        turtlesim/msg/Pose
+Subscriber    Topic	    /turtle1/cmd_vel	    geometry_msgs/msg/Twist
+Client/Server	Service	  /teleport_turtle	    std_srvs/srv/SetBool
 ```
 
 
