@@ -66,7 +66,7 @@ HIT-Autonomous-Vehicle-Dev/
 
 
 ## 🚀 Getting Started
-```
+
 1. Prerequisites
 
     Docker Desktop: Ensure WSL2 backend is enabled (for Windows users).
@@ -76,23 +76,25 @@ HIT-Autonomous-Vehicle-Dev/
 2. Launching the System
 
 From the root directory, execute the following command:
+
+```
 docker compose up --build
+```
 
 This command builds the custom nodes, handles environment sourcing, and initializes the internal ROS graph.
-```
+
 
 
 ## 🎮 Operational Control
-```
 Teleoperation
+```
+Keyboard: Use the Arrow Keys (Up, Down, Left, Right) to drive the turtle on the canvas.
 
-    Keyboard: Use the Arrow Keys (Up, Down, Left, Right) to drive the turtle on the canvas.
-
-    On-Screen Buttons: Use the dedicated UI buttons for manual control.
-
-Services
-
-    Teleport: Use the "Teleport" buttons (TL, TR, BL, BR) to instantly move the turtle to the corners via the /teleport_turtle service.
+On-Screen Buttons: Use the dedicated UI buttons for manual control.
+```
+Services:
+```
+Teleport: Use the "Teleport" buttons (TL, TR, BL, BR) to instantly move the turtle to the corners via the /teleport_turtle service.
 ```
 
 ## 🛠 Technical Implementation Details
@@ -110,9 +112,9 @@ To bypass common volume-syncing delays on Windows, the docker-compose.yml utiliz
 
 ## ROS 2 Interface Specifications
 ```
-Component	Type	Name	Message/Service Type
-Publisher	Topic	/turtle1/pose	turtlesim/msg/Pose
-Subscriber	Topic	/turtle1/cmd_vel	geometry_msgs/msg/Twist
+Component	    Type	    Name	          Message/Service Type
+Publisher	    Topic	  /turtle1/pose	    turtlesim/msg/Pose
+Subscriber    Topic	  /turtle1/cmd_vel	geometry_msgs/msg/Twist
 Client/Server	Service	/teleport_turtle	std_srvs/srv/SetBool
 ```
 
