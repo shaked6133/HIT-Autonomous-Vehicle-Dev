@@ -207,11 +207,12 @@ This library handles the "heavy lifting" of maintaining the WebSocket connection
 
 The Topic Ownership
 
-In ROS 2, a topic is like a phone line; many people can be on the line at once.
+In ROS 2, a topic is like a phone line, many people can be on the line at once.
 
 - /turtle1/pose:
 
-        Publisher: ros2-core (the turtle_node). It calculates the physics and tells everyone, "I am at (x,y)."
+        Publisher: ros2-core (the turtle_node). 
+        It calculates the physics and tells everyone, "I am at (x,y)."
 
         Subscriber: rosbridge (which then sends it to your Web UI).
 
@@ -221,5 +222,6 @@ In ROS 2, a topic is like a phone line; many people can be on the line at once.
 
         Subscriber: ros2-core (The turtle_node hears this and moves the turtle).
 
+![alt text](image.png)
 
 </div>
