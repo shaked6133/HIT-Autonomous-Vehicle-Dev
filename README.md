@@ -77,6 +77,7 @@ HIT-Autonomous-Vehicle-Dev/
 
 1. Prerequisites
     Docker Desktop: Ensure WSL2 backend is enabled (for Windows users).
+    
     Git: To clone and manage the repository.
 
 2. Launching the System
