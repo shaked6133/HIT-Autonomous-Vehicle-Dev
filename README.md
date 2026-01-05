@@ -202,4 +202,24 @@ ROS 2 Turtlesim uses a coordinate system (usually 11.0×11.0). The JavaScript co
 - ROSLIBJS:
 This library handles the "heavy lifting" of maintaining the WebSocket connection and re-connecting if the bridge drops.
 
+
+## Final input 
+
+The Topic Ownership
+
+In ROS 2, a topic is like a phone line; many people can be on the line at once.
+
+- /turtle1/pose:
+
+        Publisher: ros2-core (the turtle_node). It calculates the physics and tells everyone, "I am at (x,y)."
+
+        Subscriber: rosbridge (which then sends it to your Web UI).
+
+- /turtle1/cmd_vel:
+
+        Publisher: rosbridge (It receives a JSON "Up Arrow" from your browser, converts it to a ROS message, and shouts it out).
+
+        Subscriber: ros2-core (The turtle_node hears this and moves the turtle).
+
+
 </div>
