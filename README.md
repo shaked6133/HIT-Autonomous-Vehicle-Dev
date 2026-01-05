@@ -136,6 +136,7 @@ Client/Server	Service	   /teleport_turtle	      std_srvs/srv/SetBool
 This is the Authoritative Logic Layer. 
 It handles the physics of the simulation and the ROS 2 computation graph.
 
+```mermaid
 flowchart TD
     Start[Container Start] --> Env[Source ROS 2 Jazzy Environment]
     Env --> Build[Colcon Build custom packages]
@@ -146,9 +147,9 @@ flowchart TD
     Loop --> Update[Update Pose & Physics]
     Update --> Pub[Publish /turtle1/pose]
     Pub --> Loop
+```
 
 Key Technical Details:
-
 - Ament Prefix Path:
  We manually export this because, on Windows, the file system sync between the host and container can be slow. This command tells ROS exactly where the newly built binaries are located without waiting for a system refresh.
 
@@ -162,6 +163,7 @@ This is a "keep-alive" hack. Since ROS nodes are processes, if they crash, the c
 This is the Translation Layer. 
 It acts as a bridge between the binary world of ROS 2 (DDS) and the JSON world of the Web.
 
+```mermaid
 flowchart TD
     WS_In[WebSocket Client Connects :9090] --> Auth[Handshake & Protocol Verification]
     Auth --> Hub{Message Router}
@@ -171,12 +173,13 @@ flowchart TD
     
     DDS_Pub -->|DDS from Core| ReTranslate[Convert ROS Message to JSON]
     ReTranslate --> WS_Out[Send to Browser via WebSocket]
-
+```
 
 ## web-ui (Frontend) Flow
 This is the Interaction Layer. 
 It handles user input and visualizes data on the HTML5 Canvas.
 
+```mermaid
 flowchart TD
     Load[Browser Loads index.html] --> Conn[ROSLIBJS Connects to ws://localhost:9090]
     Conn --> Init[Initialize Canvas & Key Listeners]
@@ -190,9 +193,9 @@ flowchart TD
         Sub[Subscribe to /turtle1/pose] --> Calc[Map 11x11 ROS coordinates to 300x300 Canvas px]
         Calc --> Draw[Clear & Redraw Turtle on Canvas]
     end
+```
 
 Key Technical Details:
-
 - Coordinate Mapping:
 ROS 2 Turtlesim uses a coordinate system (usually 11.0×11.0). The JavaScript code must scale these numbers to pixels (e.g., 300×300) so the turtle appears in the correct spot on your screen.
 
