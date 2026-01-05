@@ -50,18 +50,23 @@ flowchart TB
 ```
 HIT-Autonomous-Vehicle-Dev/
 ├── docker/
-│   ├── ros2-core/          # ROS 2 Jazzy environment & Turtlesim setup
-│   └── rosbridge/          # WebSocket bridge server configuration
+│   ├── ros2-core/
+│   │   └── Dockerfile              # Core ROS 2 Jazzy image
+│   └── rosbridge/
+│       ├── turtle_control/         # Extended bridge logic
+│       ├── Dockerfile              # Bridge image with rosbridge_suite
+│       ├── entrypoint.sh           # Custom container startup script
+│       └── rosbridge_params.yaml   # WebSocket & server configuration
 ├── src/
-│   └── turtle_sim_web/     # Custom ROS 2 Python package
-│       ├── turtle_sim_web/ # Node implementation (turtle_node.py)
-│       ├── package.xml     # Package dependencies
-│       └── setup.py        # Build entry points for ROS 2
+│   └── turtle_sim_web/             # Custom ROS 2 Python package
+│       ├── turtle_sim_web/         # Node implementation (turtle_node.py)
+│       ├── package.xml             # Package dependencies
+│       └── setup.py                # Build entry points for ROS 2
 ├── web/
-│   ├── index.html          # UI with HTML5 Canvas & ROSLibJS
-│   ├── app.js              # ROSLibJS Publisher/Subscriber logic
-│   └── server.js           # Node.js server for static assets
-├── docker-compose.yml      # Orchestration & Volume mounting
+│   ├── index.html                  # UI with HTML5 Canvas & ROSLibJS
+│   ├── app.js                      # ROSLibJS Publisher/Subscriber logic
+│   └── server.js                   # Node.js server for static assets
+├── docker-compose.yml              # Orchestration & Volume mapping
 └── README.md
 ```
 
