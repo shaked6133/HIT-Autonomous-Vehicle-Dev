@@ -77,7 +77,7 @@ HIT-Autonomous-Vehicle-Dev/
 
 1. Prerequisites
     Docker Desktop: Ensure WSL2 backend is enabled (for Windows users).
-    
+
     Git: To clone and manage the repository.
 
 2. Launching the System
@@ -130,4 +130,73 @@ Client/Server	Service	   /teleport_turtle	      std_srvs/srv/SetBool
 - Frontend: HTML5 Canvas, JavaScript, ROSLIBJS
 - Infrastructure: Docker & Docker Compose
 - Backend: Node.js
+
+
+## ros2-core Service Flow
+This is the Authoritative Logic Layer. 
+It handles the physics of the simulation and the ROS 2 computation graph.
+
+flowchart TD
+    Start[Container Start] --> Env[Source ROS 2 Jazzy Environment]
+    Env --> Build[Colcon Build custom packages]
+    Build --> Fix[Manual AMENT_PREFIX_PATH Export]
+    Fix --> RunNode[Launch turtle_node in Background]
+    RunNode --> KeepAlive[Execute tail -f /dev/null]
+    KeepAlive --> Loop[Listen for /turtle1/cmd_vel]
+    Loop --> Update[Update Pose & Physics]
+    Update --> Pub[Publish /turtle1/pose]
+    Pub --> Loop
+
+Key Technical Details:
+
+- Ament Prefix Path:
+ We manually export this because, on Windows, the file system sync between the host and container can be slow. This command tells ROS exactly where the newly built binaries are located without waiting for a system refresh.
+
+- Backgrounding (&):
+We run the node in the background so the script can reach the tail command.
+
+- Tail -f:
+This is a "keep-alive" hack. Since ROS nodes are processes, if they crash, the container usually dies. This command ensures the container stays "Running" so you can debug it.
+
+## rosbridge Service Flow
+This is the Translation Layer. 
+It acts as a bridge between the binary world of ROS 2 (DDS) and the JSON world of the Web.
+
+flowchart TD
+    WS_In[WebSocket Client Connects :9090] --> Auth[Handshake & Protocol Verification]
+    Auth --> Hub{Message Router}
+    
+    Hub -->|JSON from Browser| Translate[Convert JSON to ROS Message]
+    Translate --> DDS_Pub[Publish to DDS Network]
+    
+    DDS_Pub -->|DDS from Core| ReTranslate[Convert ROS Message to JSON]
+    ReTranslate --> WS_Out[Send to Browser via WebSocket]
+
+
+## web-ui (Frontend) Flow
+This is the Interaction Layer. 
+It handles user input and visualizes data on the HTML5 Canvas.
+
+flowchart TD
+    Load[Browser Loads index.html] --> Conn[ROSLIBJS Connects to ws://localhost:9090]
+    Conn --> Init[Initialize Canvas & Key Listeners]
+    
+    subgraph Input_Loop [Input Loop]
+        Key[Arrow Key Pressed] --> Msg[Create geometry_msgs/Twist]
+        Msg --> Pub[Publish to /turtle1/cmd_vel]
+    end
+    
+    subgraph Visual_Loop [Render Loop]
+        Sub[Subscribe to /turtle1/pose] --> Calc[Map 11x11 ROS coordinates to 300x300 Canvas px]
+        Calc --> Draw[Clear & Redraw Turtle on Canvas]
+    end
+
+Key Technical Details:
+
+- Coordinate Mapping:
+ROS 2 Turtlesim uses a coordinate system (usually 11.0×11.0). The JavaScript code must scale these numbers to pixels (e.g., 300×300) so the turtle appears in the correct spot on your screen.
+
+- ROSLIBJS:
+This library handles the "heavy lifting" of maintaining the WebSocket connection and re-connecting if the bridge drops.
+
 </div>
