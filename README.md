@@ -69,13 +69,10 @@ HIT-Autonomous-Vehicle-Dev/
 ## 🚀 Getting Started
 
 1. Prerequisites
-
     Docker Desktop: Ensure WSL2 backend is enabled (for Windows users).
-
     Git: To clone and manage the repository.
 
 2. Launching the System
-
 From the root directory, execute the following command:
 
 ```
@@ -103,11 +100,11 @@ Windows-Docker Compatibility Fix
 
 To bypass common volume-syncing delays on Windows, the docker-compose.yml utilizes a specialized bootstrap sequence:
 
-    Internal Build: Runs colcon build --merge-install inside the container.
+  Internal Build: Runs colcon build --merge-install inside the container.
 
-    Manual Path Injection: Explicitly exports the AMENT_PREFIX_PATH to ensure the package is discoverable immediately.
+  Manual Path Injection: Explicitly exports the AMENT_PREFIX_PATH to ensure the package is discoverable immediately.
 
-    Subshell Execution: Launches the ROS node in the background using (ros2 run ... &) and maintains the container lifecycle with tail -f /dev/null.
+  Subshell Execution: Launches the ROS node in the background using (ros2 run ... &) and maintains the container lifecycle with tail -f /dev/null.
 
 
 ## ROS 2 Interface Specifications
@@ -120,13 +117,13 @@ Client/Server	Service	/teleport_turtle	std_srvs/srv/SetBool
 
 
 ## 🛠 Technologies
-    Middleware: ROS 2 Jazzy Jalisco
+  Middleware: ROS 2 Jazzy Jalisco
 
-    Communication: WebSockets, DDS (Data Distribution Service)
+  Communication: WebSockets, DDS (Data Distribution Service)
 
-    Frontend: HTML5 Canvas, JavaScript, ROSLIBJS
+  Frontend: HTML5 Canvas, JavaScript, ROSLIBJS
 
-    Infrastructure: Docker & Docker Compose
+  Infrastructure: Docker & Docker Compose
 
-    Backend: Node.js
+  Backend: Node.js
 </div>
