@@ -18,7 +18,7 @@ setup(
     maintainer='Shaked Sabag',
     maintainer_email='sabag975@gmail.com',
     description='Headless turtlesim for web control',
-    license='MIT',
+    license='Shaked',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
