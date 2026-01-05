@@ -222,6 +222,7 @@ In ROS 2, a topic is like a phone line, many people can be on the line at once.
 
         Subscriber: ros2-core (The turtle_node hears this and moves the turtle).
 
-![alt text](image.png)
+
+  ![alt text](image.png)
 
 </div>
