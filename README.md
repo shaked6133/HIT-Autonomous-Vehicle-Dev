@@ -1,6 +1,8 @@
 # HIT – Intelligent Autonomous Vehicle Software Development
-### Headless ROS 2 Simulation & Web-Interface Integration
 <div align="center">
+
+### Headless ROS 2 Simulation & Web-Interface Integration
+
 
 [![ROS 2](https://img.shields.io/badge/ROS2-Jazzy-blue?logo=ros&logoColor=white)](https://docs.ros.org/en/jazzy/index.html)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
