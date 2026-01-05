@@ -3,7 +3,7 @@
 
 [![ROS 2](https://img.shields.io/badge/ROS2-Jazzy-blue?logo=ros&logoColor=white)](https://docs.ros.org/en/jazzy/index.html)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+
 
 This repository contains a containerized ROS 2 software stack developed for the **Intelligent Autonomous Vehicle Software Development** course at HIT. The project demonstrates a modern "Headless" simulation architecture where ROS 2 handles the physics and logic in a Docker environment, while a decoupled Web Client provides visualization and control.
 
