@@ -26,7 +26,7 @@ flowchart TB
         RB[rosbridge_websocket :9090]
     end
 
-    subgraph Core ["Docker Container: ros2-core"]
+    subgraph Core ["Docker Container: ros2core"]
         direction TB
         TurtleNode[/turtle_node/]
         SimLogic[Simulation Logic]
