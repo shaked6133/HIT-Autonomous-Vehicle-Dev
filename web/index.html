@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TurtleSim Web Control</title>
+    <script src="https://cdn.jsdelivr.net/npm/roslib@1.3.0/build/roslib.min.js"></script>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        #canvas { border: 1px solid #ccc; background: #f0f0f0; }
+        button { margin: 5px; padding: 10px; }
+        #status { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>TurtleSim Web Control</h1>
+    <p>Status: <span id="status">Disconnected</span></p>
+    <p>Pose: x=<span id="pose_x">0</span>, y=<span id="pose_y">0</span>, theta=<span id="pose_theta">0</span></p>
+    
+    <canvas id="canvas" width="300" height="300"></canvas>
+    
+    <div>
+        <h3>Teleop</h3>
+        <button onclick="sendCmd(1.0, 0.0)">Forward</button>
+        <button onclick="sendCmd(0.0, 0.5)">Left</button>
+        <button onclick="sendCmd(0.0, -0.5)">Right</button>
+        <button onclick="sendCmd(-1.0, 0.0)">Backward</button>
+        <button onclick="sendCmd(0.0, 0.0)">Stop</button>
+    </div>
+    
+<div>
+    <h3>Teleport</h3>
+    <button onclick="teleportCorner(0)">TL</button>
+    <button onclick="teleportCorner(1)">TR</button>
+    <button onclick="teleportCorner(2)">BL</button>
+    <button onclick="teleportCorner(3)">BR</button>
+</div>
+    
+    <div>
+        <h3>Docking</h3>
+        <button onclick="startDocking()">Dock to (10,10)</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

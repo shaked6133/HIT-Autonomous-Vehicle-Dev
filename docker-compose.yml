@@ -10,6 +10,15 @@ services:
       - rosnet
     stdin_open: true
     tty: true
+    command: >
+          bash -c "
+            source /opt/ros/jazzy/setup.bash &&
+            cd /ros2_ws &&
+            colcon build --merge-install &&
+            export AMENT_PREFIX_PATH=\$AMENT_PREFIX_PATH:/ros2_ws/install &&
+            source install/setup.bash &&
+            ros2 run turtle_sim_web turtle_node
+          "
 
   rosbridge:
     build: ./docker/rosbridge
@@ -20,6 +29,8 @@ services:
       - rosnet
     depends_on:
       - ros2-core
+    ports:
+      - "9090:9090"
 
 networks:
   rosnet:

@@ -2,6 +2,7 @@ FROM ros:jazzy-ros-base
 
 RUN apt-get update && apt-get install -y \
     ros-jazzy-rosbridge-server \
+    ros-jazzy-turtlesim \ 
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /ros2_ws
