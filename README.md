@@ -92,21 +92,21 @@ This command builds the custom nodes, handles environment sourcing, and initiali
 
 ## 🎮 Operational Control
 Teleoperation
-Keyboard: Use the Arrow Keys (Up, Down, Left, Right) to drive the turtle on the canvas.
+- Keyboard: Use the Arrow Keys (Up, Down, Left, Right) to drive the turtle on   the canvas.
 
-On-Screen Buttons: Use the dedicated UI buttons for manual control.
+- On-Screen Buttons: Use the dedicated UI buttons for manual control.
 
 Services:
-Teleport: Use the "Teleport" buttons (TL, TR, BL, BR) 
-to instantly move the turtle to the corners via the /teleport_turtle service.
+- Teleport: Use the "Teleport" buttons (TL, TR, BL, BR) 
+- to instantly move the turtle to the corners via the /teleport_turtle service.
 
 
 ## 🛠 Technical Implementation Details
 
 Windows-Docker Compatibility Fix
 
-To bypass common volume-syncing delays on Windows, the docker-compose.yml utilizes a specialized bootstrap sequence:
-
+To bypass common volume-syncing delays on Windows, the docker-compose.yml
+- utilizes a specialized bootstrap sequence:
   Internal Build: Runs colcon build --merge-install inside the container.
 
   Manual Path Injection: Explicitly exports the AMENT_PREFIX_PATH to ensure the package is discoverable immediately.
