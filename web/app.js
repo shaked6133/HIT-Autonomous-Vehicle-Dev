@@ -105,7 +105,7 @@ function draw() {
     if (turtleImg.complete && turtleImg.naturalWidth !== 0) {
         // Draw image centered (offset by half of width/height)
         // Adjust 30, 30 to change the size of your robot/turtle
-        ctx.drawImage(turtleImg, -40, -40, 90, 90);
+        ctx.drawImage(turtleImg, -20, -40, 90, 90);
     } else {
         // Fallback placeholder (Blue Triangle)
         ctx.fillStyle = '#00f';
