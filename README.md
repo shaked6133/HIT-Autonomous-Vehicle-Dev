@@ -89,7 +89,13 @@ docker compose up --build
 
 This command builds the custom nodes, handles environment sourcing, and initializes the internal ROS graph.
 
-then, open web browser at:
+then, run python web-server:
+```
+python -m http.server 8080
+```
+
+
+finally, open web browser at:
 ```
 http://localhost:8080/web/
 ```
