@@ -89,8 +89,9 @@ docker compose up --build
 
 This command builds the custom nodes, handles environment sourcing, and initializes the internal ROS graph.
 
+then, open web browser at:
 ```
-then, open web browser at http://localhost:8080/web/
+http://localhost:8080/web/
 ```
 
 
