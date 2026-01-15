@@ -3,17 +3,14 @@ const path = require('path');
 const app = express();
 const PORT = 8080;
 
-// Since server.js is INSIDE the web folder, 
-// __dirname is already pointing to the web directory.
-app.use(express.static(__dirname));
+// 1. Serve ALL static files (html, js, images, icons) from the /web folder
+app.use(express.static(path.join(__dirname, 'web')));
 
-// Explicitly serve index.html for the root route
+// 2. Explicitly route the root URL to /web/index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'web', 'index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Web UI is running!`);
-    console.log(`URL: http://localhost:${PORT}`);
-    console.log(`Serving files from: ${__dirname}`);
+    console.log(`Web UI is running at http://localhost:${PORT}`);
 });

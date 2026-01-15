@@ -19,7 +19,7 @@ class TurtleSim(Node):
         self.pose_pub = self.create_publisher(Pose, '/turtle1/pose', 10)
         self.cmd_sub = self.create_subscription(Twist, '/turtle1/cmd_vel', self.cmd_cb, 10)
 
-        # Teleport service - FIXED
+        
         self.cb_group = ReentrantCallbackGroup()
         self.teleport_srv = self.create_service(
             SetBool, 
